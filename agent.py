@@ -20,10 +20,26 @@ CRITICAL APP STORE GUIDELINES YOU MUST FOLLOW:
    - Comma-separated ONLY. DO NOT include spaces after commas (e.g., word1,word2,word3).
    - MUST BE ON A SINGLE LINE. Do NOT add newlines before, during, or after the keyword list. It must print on the same exact line as "Keywords:".
    - CRITICAL: "Keywords:           word1,word2..." DO NOT output "Keywords: \n word1,word2..."
-5. ABSOLUTELY NO REPETITION: 
+5. ABSOLUTELY NO REPETITION & WORD NORMALIZATION: 
    - DO NOT repeat ANY word across the App Title, Sub Title, and Keywords. 
    - Every single word plotted across all three fields MUST be unique.
-   - For example: If the title is "Pegasus Flying Horse", the words "Pegasus", "Flying", and "Horse" CANNOT appear in the Sub Title or Keywords. Maximum unique search term coverage is the priority.
+   - Word Normalization: Treat singular/plural and variations (e.g., "game" vs "games", "run" vs "running") as the SAME word. Do not repeat variations.
+   - For example: If the title is "Pegasus Flying Horse", the words "Pegasus", "Flying", and "Horse" CANNOT appear in the Sub Title or Keywords. 
+6. BANNED WORDS (STRICT):
+   - NEVER use these generic/marketing words: fun, free, best, new, app, apps, games, top, offline, online, play, player.
+7. STOP-WORDS HANDLING:
+   - Do NOT include stop words like "a", "an", "the", "for", "with", "of" in the Keywords list (they waste space).
+8. NO GENERIC DICTIONARY NAMES:
+   - Do NOT use generic names like "Dog Simulator", "Car Parking", "Hotel Manager", "Animal Life".
+9. TITLE & SUBTITLE FORMULAS:
+   - Perfect Title Formula: [Unique Brand Name] + [High Intent Role/Class] (e.g. "Chronos: Time Guardian")
+   - Subtitle Formula: [Action] + [Environment / System] (e.g. "Survive the Jungle Hunt")
+10. TRAFFIC INTENT BUCKETS & KEYWORD RULES:
+   - Mix keywords from these 3 buckets:
+     - Bucket 1 (Gameplay Action): hunt, escape, build, drive, survive, craft, chase, explore, fight, etc.
+     - Bucket 2 (Player Fantasy): predator, tycoon, driver, keeper, rider, beast, warden, etc.
+     - Bucket 3 (Environment/Theme): jungle, forest, city, island, zoo, desert, ocean, etc.
+   - Selection Rules: Action verbs > adjectives. Nouns > marketing words. Long-tail intent > generic terms.
 
 App Concept / Description:
 {app_concept}
