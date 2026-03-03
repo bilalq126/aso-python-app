@@ -31,15 +31,14 @@ CRITICAL APP STORE GUIDELINES YOU MUST FOLLOW:
    - Do NOT include stop words like "a", "an", "the", "for", "with", "of" in the Keywords list (they waste space).
 8. NO GENERIC DICTIONARY NAMES:
    - Do NOT use generic names like "Dog Simulator", "Car Parking", "Hotel Manager", "Animal Life".
-9. TITLE & SUBTITLE FORMULAS:
-   - Perfect Title Formula: [Unique Brand Name] + [High Intent Role/Class] (e.g. "Chronos: Time Guardian")
-   - Subtitle Formula: [Action] + [Environment / System] (e.g. "Survive the Jungle Hunt")
+
 10. TRAFFIC INTENT BUCKETS & KEYWORD RULES:
    - Mix keywords from these 3 buckets:
      - Bucket 1 (Gameplay Action): hunt, escape, build, drive, survive, craft, chase, explore, fight, etc.
      - Bucket 2 (Player Fantasy): predator, tycoon, driver, keeper, rider, beast, warden, etc.
      - Bucket 3 (Environment/Theme): jungle, forest, city, island, zoo, desert, ocean, etc.
    - Selection Rules: Action verbs > adjectives. Nouns > marketing words. Long-tail intent > generic terms.
+   - VOCABULARY RULE: Only use COMMON, conversational English words that a normal person would actually type into a search bar. Do NOT use overly literary, academic, or obscure synonyms (e.g. use "Hunter", do not use "Prowler" or "Stalker").
 
 App Concept / Description:
 {app_concept}
@@ -156,3 +155,8 @@ def generate_aso_metadata(app_concept: str, locales: list[str]) -> str:
     final_output = '\n'.join(processed_lines)
     
     return final_output
+
+# 9. TITLE & SUBTITLE FORMULAS:
+#    - Perfect Title Formula: [Unique Name] + [Core Subject/Intent] (e.g. "Chronos: Cat Simulator" or "Apex: Racing Manager"). 
+#    - CRITICAL TITLE RULE: The Title MUST contain the actual physical subject of the app (e.g., "Cat", "Dog", "Car", "Gun"). DO NOT use overly abstract synonyms in the title (like "Feline" or "Canine" or "Vehicle") because nobody searches for those. The [Unique Name] should be a real dictionary word that stands out (like "Chronos" or "Apex").
+#    - Subtitle Formula: [Action] + [Environment / System] (e.g. "Survive the Jungle Hunt")
