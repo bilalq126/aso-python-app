@@ -5,16 +5,30 @@ sys.path.append(os.path.abspath(r"d:\Python\ASO Agent\aso-python-app"))
 from validator import validate_aso_text
 
 test_output = """
+--- STEP 1: COMPETITOR ANALYSIS ---
+Top 10 Related Games:
+1. Pegasus Flying Horse
+2. Wild Horse Simulator
+
+--- STEP 2: KEYWORD BRAINSTORMING ---
+Top 50 Keywords:
+horse,fly,pegasus,wings,sky,adventure
+
+--- STEP 3: FINAL USA METADATA ---
 --------------------USA-----------------------------
-App Title:          Croc Chomper Fun
-Sub Title:          Jungle Predator Hunt Quest
-Keywords:           crocodile,game,alligator,reptile,simulator,action,kids,family,swamp,river,water,attack,bite,survive
---------------------Spain-----------------------------
-App Title:          Croc Salvaje Juego
-Sub Title:          Depredador Selva Caza
-Keywords:           cocodrilo,caiman,reptil,simulador,accion,niños,familia,pantano,rio,agua,ataque,mordisco,sobrevivir
+App Title:          Pegasus Game
+Sub Title:          Flying Horse Sim
+Keywords:           horse,fly,pegasus,wings,sky,adventure
 """
 
-locales_data, warnings = validate_aso_text(test_output)
-print("Locales Data:", locales_data)
-print("Warnings:", warnings)
+data, warnings = validate_aso_text(test_output)
+
+print("PARSED DATA:")
+for locale, fields in data.items():
+    print(f"[{locale}]")
+    for k, v in fields.items():
+        print(f"  {k}: {v}")
+        
+print("\nWARNINGS:")
+for w in warnings:
+    print(f"  {w}")

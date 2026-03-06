@@ -62,43 +62,73 @@ def validate_aso_text(generated_text: str):
     locales_data = {}
     
     current_locale = None
+    current_attribute = None
     
     for line in generated_text.split('\n'):
-        line = line.strip()
-        if not line:
+        # Keep original line for long description to preserve spacing later, but use strip for checks
+        stripped_line = line.strip()
+        if not stripped_line:
             continue
             
         # Detect locale header (e.g. "--------------------USA-----------------------------")
-        if '---' in line and any(c.isalpha() for c in line) and not ':' in line:
-            # Extract locale name by removing all non-alphabetic characters
-            current_locale = "".join(c for c in line if c.isalpha()).title()
+        if '---' in stripped_line and any(c.isalpha() for c in stripped_line) and not ':' in stripped_line:
+            current_locale = "".join(c for c in stripped_line if c.isalpha()).title()
             if current_locale:
-                locales_data[current_locale] = {'Title': '', 'Sub Title': '', 'Keywords': ''}
+                locales_data[current_locale] = {'Title': '', 'Sub Title': '', 'Keywords': '', 'Short Description': '', 'Long Description': ''}
+            current_attribute = None
             continue
             
         if not current_locale:
+            # Pre-locale section (e.g., Chain of Thought reasoning)
             continue
             
-        if line.startswith('App Title:'):
-            title = line.split('App Title:', 1)[1].strip()
-            locales_data[current_locale]['Title'] = title
-            if len(title) > 30:
-                warnings.append(f"[{current_locale}] App Title exceeds 30 characters: '{title}' ({len(title)} chars)")
+        if stripped_line.startswith('App Title:'):
+            locales_data[current_locale]['Title'] = stripped_line.split('App Title:', 1)[1].strip()
+            current_attribute = 'Title'
                 
-        elif line.startswith('Sub Title:'):
-            subtitle = line.split('Sub Title:', 1)[1].strip()
-            locales_data[current_locale]['Sub Title'] = subtitle
-            if len(subtitle) > 30:
-                warnings.append(f"[{current_locale}] Sub Title exceeds 30 characters: '{subtitle}' ({len(subtitle)} chars)")
+        elif stripped_line.startswith('Sub Title:'):
+            locales_data[current_locale]['Sub Title'] = stripped_line.split('Sub Title:', 1)[1].strip()
+            current_attribute = 'Sub Title'
                 
-        elif line.startswith('Keywords:'):
-            keywords_str = line.split('Keywords:', 1)[1].strip()
-            locales_data[current_locale]['Keywords'] = keywords_str
+        elif stripped_line.startswith('Keywords:'):
+            locales_data[current_locale]['Keywords'] = stripped_line.split('Keywords:', 1)[1].strip()
+            current_attribute = 'Keywords'
+
+        elif stripped_line.startswith('Short Description:'):
+            locales_data[current_locale]['Short Description'] = stripped_line.split('Short Description:', 1)[1].strip()
+            current_attribute = 'Short Description'
+            
+        elif stripped_line.startswith('Long Description:'):
+            locales_data[current_locale]['Long Description'] = stripped_line.split('Long Description:', 1)[1].strip()
+            current_attribute = 'Long Description'
+            
+        elif current_attribute == 'Long Description':
+            locales_data[current_locale]['Long Description'] += "\n" + line # Keep original spacing for Long Desc
+            
+
+    # Run validations post-parsing
+    for locale, data in locales_data.items():
+        title = data.get('Title', '')
+        if len(title) > 30:
+            warnings.append(f"[{locale}] App Title exceeds 30 characters: '{title}' ({len(title)} chars)")
+            
+        subtitle = data.get('Sub Title', '')
+        if subtitle and len(subtitle) > 30:
+            warnings.append(f"[{locale}] Sub Title exceeds 30 characters: '{subtitle}' ({len(subtitle)} chars)")
+            
+        keywords_str = data.get('Keywords', '')
+        if keywords_str:
             if len(keywords_str) > 100:
-                warnings.append(f"[{current_locale}] Keywords exceed 100 characters combined ({len(keywords_str)} chars)")
-                
-            # Check for spaces after commas (which wastes characters)
+                warnings.append(f"[{locale}] Keywords exceed 100 characters combined ({len(keywords_str)} chars)")
             if ', ' in keywords_str:
-                warnings.append(f"[{current_locale}] Keywords contain spaces after commas, violating ASO best practices.")
+                warnings.append(f"[{locale}] Keywords contain spaces after commas, violating App Store best practices.")
                 
+        short_desc = data.get('Short Description', '')
+        if short_desc and len(short_desc) > 80:
+            warnings.append(f"[{locale}] Short Description exceeds 80 characters: '{short_desc}' ({len(short_desc)} chars)")
+            
+        long_desc = data.get('Long Description', '')
+        if long_desc and len(long_desc) > 4000:
+            warnings.append(f"[{locale}] Long Description exceeds 4000 characters ({len(long_desc)} chars)")
+            
     return locales_data, warnings
